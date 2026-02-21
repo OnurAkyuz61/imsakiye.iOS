@@ -18,7 +18,11 @@ final class TimerViewModel: ObservableObject {
     @Published var isCountingToIftar: Bool = true
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    @Published var locationDisplayName: String = "—"
+    
+    /// Cihaz konumu mu yoksa manuel seçilen şehir mi kullanılıyor?
+    @Published var useDeviceLocation: Bool = true
+    /// Manuel seçilen yer (Ayarlar'dan şehir arama ile set edilir).
+    @Published var manualPlace: (name: String, lat: Double, lon: Double)?
     
     // MARK: - Sun/Moon arc (0...1: İmsak→Maghrib veya Maghrib→İmsak)
     
@@ -40,32 +44,72 @@ final class TimerViewModel: ObservableObject {
     }
     
     private func bindLocation() {
+        // Cihaz konumu değiştiğinde sadece useDeviceLocation true ise güncelle
         locationManager.$placemark
+            .combineLatest($useDeviceLocation)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.locationDisplayName = self?.locationManager.locationDisplayName ?? "—"
+            .sink { [weak self] _, useDevice in
+                guard useDevice else { return }
+                self?.objectWillChange.send()
             }
             .store(in: &cancellables)
         locationManager.$lastLocation
+            .combineLatest($useDeviceLocation)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.locationDisplayName = self?.locationManager.locationDisplayName ?? "—"
+            .sink { [weak self] _, useDevice in
+                guard useDevice else { return }
+                self?.objectWillChange.send()
             }
             .store(in: &cancellables)
     }
     
+    /// Gösterilecek konum adı (cihaz veya manuel seçilen şehir).
+    var locationDisplayName: String {
+        if useDeviceLocation {
+            return locationManager.locationDisplayName
+        }
+        return manualPlace?.name ?? "—"
+    }
+    
+    /// Anlık konumu kullan; manuel yeri temizle ve vakitleri yeniden çek.
+    func useCurrentLocation() {
+        useDeviceLocation = true
+        manualPlace = nil
+        requestLocationAndFetchPrayerTimes()
+    }
+    
+    /// Manuel yer seçildi (Ayarlar'dan şehir arama). Vakitleri bu koordinata göre çeker.
+    func setManualPlace(name: String, lat: Double, lon: Double) {
+        useDeviceLocation = false
+        manualPlace = (name: name, lat: lat, lon: lon)
+        fetchPrayerTimesIfPossible()
+    }
+    
     func requestLocationAndFetchPrayerTimes() {
-        locationManager.requestPermission()
-        locationManager.startUpdatingLocation()
-        locationDisplayName = locationManager.locationDisplayName
+        if useDeviceLocation {
+            locationManager.requestPermission()
+            locationManager.startUpdatingLocation()
+        }
         fetchPrayerTimesIfPossible()
     }
     
     func fetchPrayerTimesIfPossible() {
-        guard locationManager.hasValidLocation,
-              let lat = locationManager.latitude,
-              let lon = locationManager.longitude else {
-            errorMessage = "Konum alınamadı. Lütfen konum iznini verin."
+        let lat: Double
+        let lon: Double
+        if useDeviceLocation {
+            guard locationManager.hasValidLocation,
+                  let la = locationManager.latitude,
+                  let lo = locationManager.longitude else {
+                errorMessage = "Konum alınamadı. Lütfen konum iznini verin veya Ayarlar'dan şehir seçin."
+                return
+            }
+            lat = la
+            lon = lo
+        } else if let place = manualPlace {
+            lat = place.lat
+            lon = place.lon
+        } else {
+            errorMessage = "Konum seçin: Ayarlar'dan şehir arayın veya anlık konumu kullanın."
             return
         }
         errorMessage = nil
@@ -74,8 +118,9 @@ final class TimerViewModel: ObservableObject {
             do {
                 let day = try await networkManager.fetchPrayerTimes(latitude: lat, longitude: lon, date: Date())
                 prayerDay = day
-                await locationManager.updatePlacemark()
-                locationDisplayName = locationManager.locationDisplayName
+                if useDeviceLocation {
+                    await locationManager.updatePlacemark()
+                }
                 updateCountdownAndProgress()
             } catch {
                 errorMessage = "Vakitler yüklenemedi. İnternet bağlantınızı kontrol edin."
