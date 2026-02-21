@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import Combine
 
 @MainActor
 final class LocationManager: NSObject, ObservableObject {

@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct MainTimerView: View {
-    @StateObject private var viewModel = TimerViewModel()
+    @StateObject private var locationManager = LocationManager()
+    @StateObject private var viewModel: TimerViewModel
+    
+    init() {
+        let locationManager = LocationManager()
+        _locationManager = StateObject(wrappedValue: locationManager)
+        _viewModel = StateObject(wrappedValue: TimerViewModel(locationManager: locationManager))
+    }
     
     var body: some View {
         ZStack {

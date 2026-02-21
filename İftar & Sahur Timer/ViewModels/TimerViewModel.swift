@@ -32,7 +32,7 @@ final class TimerViewModel: ObservableObject {
     private var timerTask: Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
     
-    init(locationManager: LocationManager = LocationManager(), networkManager: NetworkManager = NetworkManager.shared) {
+    init(locationManager: LocationManager, networkManager: NetworkManager = NetworkManager.shared) {
         self.locationManager = locationManager
         self.networkManager = networkManager
         bindLocation()
