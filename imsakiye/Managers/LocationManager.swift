@@ -8,7 +8,6 @@
 import Foundation
 import CoreLocation
 import Combine
-import Contacts
 import MapKit
 
 @MainActor
@@ -16,6 +15,8 @@ final class LocationManager: NSObject, ObservableObject {
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var lastLocation: CLLocation?
     @Published var placemark: CLPlacemark?
+    /// iOS 26+: reverse geocoding sonucu (placemark yerine; MKAddress kullanımı için).
+    @Published var lastMapItem: MKMapItem?
     
     var latitude: Double? { lastLocation?.coordinate.latitude }
     var longitude: Double? { lastLocation?.coordinate.longitude }
@@ -56,20 +57,20 @@ final class LocationManager: NSObject, ObservableObject {
             do {
                 let mapItems = try await request.mapItems
                 await MainActor.run {
-                    if let first = mapItems.first, let addr = first.address {
-                        self.placemark = MKPlacemark(coordinate: location.coordinate, postalAddress: addr)
-                    } else {
-                        self.placemark = nil
-                    }
+                    self.lastMapItem = mapItems.first
+                    self.placemark = nil
                 }
             } catch {
-                // Sessizce yoksay; şehir alanı boş kalır
+                await MainActor.run {
+                    self.lastMapItem = nil
+                }
             }
         } else {
             let geocoder = CLGeocoder()
             do {
                 let placemarks = try await geocoder.reverseGeocodeLocation(location)
                 await MainActor.run {
+                    self.lastMapItem = nil
                     self.placemark = placemarks.first
                 }
             } catch {
@@ -79,6 +80,9 @@ final class LocationManager: NSObject, ObservableObject {
     }
     
     var locationDisplayName: String {
+        if #available(iOS 26.0, *), let item = lastMapItem, let addr = item.address {
+            return addr.shortAddress ?? addr.fullAddress ?? "—"
+        }
         if let locality = placemark?.locality {
             return locality
         }
