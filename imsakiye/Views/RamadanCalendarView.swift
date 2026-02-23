@@ -75,10 +75,12 @@ struct RamadanCalendarView: View {
     }
 
     private var weekdays: [String] {
-        let symbols = gregorian.shortWeekdaySymbols
-        let first = gregorian.firstWeekday - 1
-        if first == 0 { return symbols }
-        return (symbols[first...] + symbols[..<first]).map { String($0.prefix(2)) }
+        var trCalendar = Calendar(identifier: .gregorian)
+        trCalendar.locale = Locale(identifier: "tr_TR")
+        let symbols = trCalendar.shortWeekdaySymbols
+        let first = trCalendar.firstWeekday - 1
+        if first == 0 { return symbols.map { String($0.prefix(3)) } }
+        return (symbols[first...] + symbols[..<first]).map { String($0.prefix(3)) }
     }
 
     var body: some View {
