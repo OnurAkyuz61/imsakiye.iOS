@@ -81,6 +81,8 @@ struct PrayerDay {
     let maghrib: Date
     /// Ertesi günün İmsak vakti (Sahur sayacı için)
     let nextImsak: Date?
+    /// Ertesi günün Akşam/İftar vakti (bildirimler için)
+    let nextMaghrib: Date?
     /// Önceki günün Akşam vakti (gece yarısından imsaka progress için)
     let previousMaghrib: Date?
     

@@ -128,6 +128,7 @@ final class TimerViewModel: ObservableObject {
                     await locationManager.updatePlacemark()
                 }
                 updateCountdownAndProgress()
+                scheduleIftarNotificationsIfNeeded(day: day)
             } catch {
                 errorMessage = "Vakitler yüklenemedi. İnternet bağlantınızı kontrol edin."
             }
@@ -205,7 +206,25 @@ final class TimerViewModel: ObservableObject {
         let now = Date()
         return now >= day.imsak && now < day.maghrib
     }
-    
+
+    /// Bir sonraki iftar tarihi (bugün veya yarın).
+    private func nextIftarDate(from day: PrayerDay) -> Date {
+        let now = Date()
+        if now < day.maghrib { return day.maghrib }
+        if let next = day.nextMaghrib { return next }
+        return day.maghrib.addingTimeInterval(24 * 3600)
+    }
+
+    private func scheduleIftarNotificationsIfNeeded(day: PrayerDay) {
+        NotificationManager.shared.scheduleIftarNotifications(nextIftarDate: nextIftarDate(from: day))
+    }
+
+    /// Ayarlardan bildirim açılıp kapatıldığında yeniden zamanla (vakitler yüklüyse).
+    func rescheduleIftarNotifications() {
+        guard let day = prayerDay else { return }
+        scheduleIftarNotificationsIfNeeded(day: day)
+    }
+
     deinit {
         timerTask?.cancel()
     }

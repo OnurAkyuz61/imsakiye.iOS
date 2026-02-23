@@ -75,11 +75,12 @@ actor NetworkManager {
                                     calendar.component(.month, from: nextDay),
                                     calendar.component(.year, from: nextDay))
         var nextImsak: Date?
+        var nextMaghrib: Date?
         if let nextURL = URL(string: "\(baseURL)/timings/\(nextDateString)?latitude=\(latitude)&longitude=\(longitude)") {
             if let (nextData, _) = try? await session.data(from: nextURL),
-               let nextDecoded = try? await Task.detached(priority: .userInitiated) { try JSONDecoder().decode(AladhanAPIResponse.self, from: nextData) }.value,
-               let next = Self.parseTime(nextDecoded.data.timings.Imsak, for: nextDay, timeZoneIdentifier: timezone) {
-                nextImsak = next
+               let nextDecoded = try? await Task.detached(priority: .userInitiated) { try JSONDecoder().decode(AladhanAPIResponse.self, from: nextData) }.value {
+                nextImsak = Self.parseTime(nextDecoded.data.timings.Imsak, for: nextDay, timeZoneIdentifier: timezone)
+                nextMaghrib = Self.parseTime(nextDecoded.data.timings.Maghrib, for: nextDay, timeZoneIdentifier: timezone)
             }
         }
         
@@ -103,6 +104,7 @@ actor NetworkManager {
             imsak: imsak,
             maghrib: maghrib,
             nextImsak: nextImsak,
+            nextMaghrib: nextMaghrib,
             previousMaghrib: previousMaghrib
         )
     }

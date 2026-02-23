@@ -12,7 +12,8 @@ import MapKit
 struct SettingsView: View {
     @ObservedObject var viewModel: TimerViewModel
     @ObservedObject var locationManager: LocationManager
-    
+    @ObservedObject private var notificationManager = NotificationManager.shared
+
     @State private var searchText: String = ""
     @State private var searchResults: [CLPlacemark] = []
     @State private var isSearching: Bool = false
@@ -87,6 +88,18 @@ struct SettingsView: View {
                         Text("Seçili konum")
                     }
                 }
+
+                Section {
+                    ForEach(IftarReminder.allCases) { reminder in
+                        Toggle(isOn: binding(for: reminder)) {
+                            Label(reminder.rawValue, systemImage: iconForReminder(reminder))
+                        }
+                    }
+                } header: {
+                    Text("Bildirimler")
+                } footer: {
+                    Text("İftar vaktine kala ve iftar anında bildirim alırsınız. Bildirimler için izin vermeniz gerekebilir.")
+                }
             }
             .navigationTitle("Ayarlar")
             .scrollContentBackground(.visible)
@@ -160,6 +173,26 @@ struct SettingsView: View {
         searchText = ""
         searchResults = []
         isSearchFocused = false
+    }
+
+    private func binding(for reminder: IftarReminder) -> Binding<Bool> {
+        Binding(
+            get: { notificationManager.isEnabled(reminder) },
+            set: { newValue in
+                notificationManager.setEnabled(reminder, newValue)
+                viewModel.rescheduleIftarNotifications()
+            }
+        )
+    }
+
+    private func iconForReminder(_ reminder: IftarReminder) -> String {
+        switch reminder {
+        case .oneHour: return "clock.badge"
+        case .thirtyMin: return "clock"
+        case .tenMin: return "bell"
+        case .fiveMin: return "bell.badge"
+        case .atIftar: return "moon.stars.fill"
+        }
     }
 }
 
