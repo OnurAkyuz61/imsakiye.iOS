@@ -10,6 +10,25 @@ import CoreLocation
 import Combine
 import MapKit
 
+private enum LocationStorage {
+    static let latKey = "imsakiye.savedLatitude"
+    static let lonKey = "imsakiye.savedLongitude"
+    static var defaults: UserDefaults { .standard }
+
+    static func save(latitude: Double, longitude: Double) {
+        defaults.set(latitude, forKey: latKey)
+        defaults.set(longitude, forKey: lonKey)
+    }
+
+    static func restore() -> (lat: Double, lon: Double)? {
+        guard defaults.object(forKey: latKey) != nil, defaults.object(forKey: lonKey) != nil else { return nil }
+        let lat = defaults.double(forKey: latKey)
+        let lon = defaults.double(forKey: lonKey)
+        guard lat >= -90, lat <= 90, lon >= -180, lon <= 180 else { return nil }
+        return (lat, lon)
+    }
+}
+
 @MainActor
 final class LocationManager: NSObject, ObservableObject {
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
@@ -34,7 +53,14 @@ final class LocationManager: NSObject, ObservableObject {
         manager.desiredAccuracy = kCLLocationAccuracyKilometer
         manager.distanceFilter = 500
         authorizationStatus = manager.authorizationStatus
-        lastLocation = manager.location
+        if let loc = manager.location {
+            lastLocation = loc
+            persistLocation(loc)
+        } else if let saved = LocationStorage.restore(),
+                  authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
+            lastLocation = CLLocation(latitude: saved.lat, longitude: saved.lon)
+            Task { await updatePlacemark() }
+        }
     }
     
     func requestPermission() {
@@ -100,21 +126,31 @@ final class LocationManager: NSObject, ObservableObject {
 }
 
 extension LocationManager: CLLocationManagerDelegate {
+    private func persistLocation(_ location: CLLocation) {
+        LocationStorage.save(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+    }
+
     nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         Task { @MainActor in
             self.authorizationStatus = manager.authorizationStatus
             if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
-                self.lastLocation = manager.location
+                if let loc = manager.location {
+                    self.lastLocation = loc
+                    self.persistLocation(loc)
+                } else if let saved = LocationStorage.restore() {
+                    self.lastLocation = CLLocation(latitude: saved.lat, longitude: saved.lon)
+                }
                 self.manager.startUpdatingLocation()
                 await self.updatePlacemark()
             }
         }
     }
-    
+
     nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         Task { @MainActor in
             self.lastLocation = location
+            self.persistLocation(location)
             await self.updatePlacemark()
         }
     }
