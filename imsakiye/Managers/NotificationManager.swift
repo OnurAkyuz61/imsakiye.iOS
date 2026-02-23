@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import UserNotifications
 
 /// İftar bildirim seçenekleri (Ayarlar'dan açılıp kapatılır).
@@ -81,7 +82,7 @@ final class NotificationManager: ObservableObject {
     func requestAuthorizationIfNeeded() async -> Bool {
         let settings = await center.notificationSettings()
         switch settings.authorizationStatus {
-        case .authorized, .provisional:
+        case .authorized, .provisional, .ephemeral:
             return true
         case .denied:
             return false

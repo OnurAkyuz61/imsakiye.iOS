@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import Combine
+import Contacts
 import MapKit
 
 @MainActor
@@ -55,7 +56,11 @@ final class LocationManager: NSObject, ObservableObject {
             do {
                 let mapItems = try await request.mapItems
                 await MainActor.run {
-                    self.placemark = mapItems.first?.placemark
+                    if let first = mapItems.first, let addr = first.address {
+                        self.placemark = MKPlacemark(coordinate: location.coordinate, postalAddress: addr)
+                    } else {
+                        self.placemark = nil
+                    }
                 }
             } catch {
                 // Sessizce yoksay; şehir alanı boş kalır
