@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		DC0077A42F4A76090075AF18 /* İftar & Sahur Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "İftar & Sahur Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC73EC162F4C2DAC005BD1E6 /* imsakiye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = imsakiye.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DC0077A62F4A76090075AF18 /* İftar & Sahur Timer */ = {
+		DC73EC182F4C2DAC005BD1E6 /* imsakiye */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "İftar & Sahur Timer";
+			path = imsakiye;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DC0077A12F4A76090075AF18 /* Frameworks */ = {
+		DC73EC132F4C2DAC005BD1E6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -29,18 +29,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DC00779B2F4A76090075AF18 = {
+		DC73EC0D2F4C2DAC005BD1E6 = {
 			isa = PBXGroup;
 			children = (
-				DC0077A62F4A76090075AF18 /* İftar & Sahur Timer */,
-				DC0077A52F4A76090075AF18 /* Products */,
+				DC73EC182F4C2DAC005BD1E6 /* imsakiye */,
+				DC73EC172F4C2DAC005BD1E6 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		DC0077A52F4A76090075AF18 /* Products */ = {
+		DC73EC172F4C2DAC005BD1E6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DC0077A42F4A76090075AF18 /* İftar & Sahur Timer.app */,
+				DC73EC162F4C2DAC005BD1E6 /* imsakiye.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,64 +48,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DC0077A32F4A76090075AF18 /* İftar & Sahur Timer */ = {
+		DC73EC152F4C2DAC005BD1E6 /* imsakiye */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DC0077B12F4A760A0075AF18 /* Build configuration list for PBXNativeTarget "İftar & Sahur Timer" */;
+			buildConfigurationList = DC73EC232F4C2DAD005BD1E6 /* Build configuration list for PBXNativeTarget "imsakiye" */;
 			buildPhases = (
-				DC0077A02F4A76090075AF18 /* Sources */,
-				DC0077A12F4A76090075AF18 /* Frameworks */,
-				DC0077A22F4A76090075AF18 /* Resources */,
+				DC73EC122F4C2DAC005BD1E6 /* Sources */,
+				DC73EC132F4C2DAC005BD1E6 /* Frameworks */,
+				DC73EC142F4C2DAC005BD1E6 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				DC0077A62F4A76090075AF18 /* İftar & Sahur Timer */,
+				DC73EC182F4C2DAC005BD1E6 /* imsakiye */,
 			);
-			name = "İftar & Sahur Timer";
+			name = imsakiye;
 			packageProductDependencies = (
 			);
-			productName = "İftar & Sahur Timer";
-			productReference = DC0077A42F4A76090075AF18 /* İftar & Sahur Timer.app */;
+			productName = imsakiye;
+			productReference = DC73EC162F4C2DAC005BD1E6 /* imsakiye.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		DC00779C2F4A76090075AF18 /* Project object */ = {
+		DC73EC0E2F4C2DAC005BD1E6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
-					DC0077A32F4A76090075AF18 = {
+					DC73EC152F4C2DAC005BD1E6 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
-			buildConfigurationList = DC00779F2F4A76090075AF18 /* Build configuration list for PBXProject "İftar & Sahur Timer" */;
+			buildConfigurationList = DC73EC112F4C2DAC005BD1E6 /* Build configuration list for PBXProject "imsakiye" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = DC00779B2F4A76090075AF18;
+			mainGroup = DC73EC0D2F4C2DAC005BD1E6;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = DC0077A52F4A76090075AF18 /* Products */;
+			productRefGroup = DC73EC172F4C2DAC005BD1E6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DC0077A32F4A76090075AF18 /* İftar & Sahur Timer */,
+				DC73EC152F4C2DAC005BD1E6 /* imsakiye */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		DC0077A22F4A76090075AF18 /* Resources */ = {
+		DC73EC142F4C2DAC005BD1E6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -115,7 +115,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DC0077A02F4A76090075AF18 /* Sources */ = {
+		DC73EC122F4C2DAC005BD1E6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -125,7 +125,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		DC0077AF2F4A760A0075AF18 /* Debug */ = {
+		DC73EC212F4C2DAD005BD1E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -189,7 +189,7 @@
 			};
 			name = Debug;
 		};
-		DC0077B02F4A760A0075AF18 /* Release */ = {
+		DC73EC222F4C2DAD005BD1E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -246,7 +246,7 @@
 			};
 			name = Release;
 		};
-		DC0077B22F4A760A0075AF18 /* Debug */ = {
+		DC73EC242F4C2DAD005BD1E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -256,8 +256,6 @@
 				DEVELOPMENT_TEAM = 287WZ2ML8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = İmsakiye;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Namaz vakitlerini konumunuza göre göstermek için konum erişimi gereklidir.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -268,7 +266,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "onurakyuz.I-ftar---Sahur-Timer";
+				PRODUCT_BUNDLE_IDENTIFIER = onurakyuz.imsakiye;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -280,7 +278,7 @@
 			};
 			name = Debug;
 		};
-		DC0077B32F4A760A0075AF18 /* Release */ = {
+		DC73EC252F4C2DAD005BD1E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -290,8 +288,6 @@
 				DEVELOPMENT_TEAM = 287WZ2ML8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = İmsakiye;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Namaz vakitlerini konumunuza göre göstermek için konum erişimi gereklidir.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -302,7 +298,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "onurakyuz.I-ftar---Sahur-Timer";
+				PRODUCT_BUNDLE_IDENTIFIER = onurakyuz.imsakiye;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -317,25 +313,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DC00779F2F4A76090075AF18 /* Build configuration list for PBXProject "İftar & Sahur Timer" */ = {
+		DC73EC112F4C2DAC005BD1E6 /* Build configuration list for PBXProject "imsakiye" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DC0077AF2F4A760A0075AF18 /* Debug */,
-				DC0077B02F4A760A0075AF18 /* Release */,
+				DC73EC212F4C2DAD005BD1E6 /* Debug */,
+				DC73EC222F4C2DAD005BD1E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DC0077B12F4A760A0075AF18 /* Build configuration list for PBXNativeTarget "İftar & Sahur Timer" */ = {
+		DC73EC232F4C2DAD005BD1E6 /* Build configuration list for PBXNativeTarget "imsakiye" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DC0077B22F4A760A0075AF18 /* Debug */,
-				DC0077B32F4A760A0075AF18 /* Release */,
+				DC73EC242F4C2DAD005BD1E6 /* Debug */,
+				DC73EC252F4C2DAD005BD1E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = DC00779C2F4A76090075AF18 /* Project object */;
+	rootObject = DC73EC0E2F4C2DAC005BD1E6 /* Project object */;
 }
